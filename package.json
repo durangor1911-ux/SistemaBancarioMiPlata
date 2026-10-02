@@ -1,0 +1,7 @@
+{
+  "name": "sistema-bancario-mi-plata",
+  "version": "1.0.0",
+  "description": "Sistema Bancario Mi Plata - Proyecto de Aula CESDE",
+  "type": "module",
+  "main": "src/main.js"
+}
