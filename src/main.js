@@ -59,3 +59,31 @@ try {
 }
 
 console.log("\n===== FIN DE PRUEBAS =====");
+
+// Al inicio de main.js, agrega esta importación:
+import { consultarSaldo, consignar, retirar as retirarTransaccion, obtenerHistorial, transferir } from  ' ./transacciones.js' ;
+
+// ... (dejas las pruebas que ya tenía Paola) ...
+
+console.log("\n===== PRUEBA: Módulo de Transacciones (Gabriela) =====");
+
+// 1. Probando Consultar Saldo y Consignar
+console.log("Saldo actual ahorros:", consultarSaldo(ahorros));
+consignar(ahorros, 500000);
+console.log("Saldo ahorros tras consignar $500.000:", consultarSaldo(ahorros));
+
+// 2. Probando Transferencias
+try {
+    transferir(ahorros, corriente, 200000);
+    console.log("Transferencia de Ahorros -> Corriente realizada con éxito");
+    console.log("Nuevo saldo Ahorros:", consultarSaldo(ahorros));
+    console.log("Nuevo saldo Corriente:", consultarSaldo(corriente));
+} catch (error) {
+    console.log("Error en transferencia:", error.message);
+}
+
+// 3. Probando Historial de Movimientos
+console.log("\nHistorial de movimientos de Ahorros (AH-001):");
+console.table(obtenerHistorial("AH-001"));
+
+console.log("\n===== FIN DE TODAS LAS PRUEBAS =====");
