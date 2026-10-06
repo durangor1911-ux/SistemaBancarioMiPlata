@@ -24,6 +24,25 @@ export default class Cuenta {
     get saldo() { return this._saldo; }
     get movimientos() { return [...this._movimientos]; } // copia, no la referencia real
 
+    restaurarEstado(datos) {
+        this._saldo = Number(datos.saldo) || 0;
+        this._movimientos = Array.isArray(datos.movimientos)
+            ? datos.movimientos.map(movimiento => ({
+                ...movimiento,
+                fecha: new Date(movimiento.fecha),
+            }))
+            : [];
+    }
+
+    exportarPersistencia() {
+        return {
+            tipo: this.constructor.name,
+            numeroCuenta: this.numeroCuenta,
+            saldo: this.saldo,
+            movimientos: this.movimientos,
+        };
+    }
+
     // ===== Operaciones bancarias =====
 
     consultarSaldo() {

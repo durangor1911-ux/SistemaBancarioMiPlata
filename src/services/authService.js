@@ -7,7 +7,7 @@ import Cliente from '../classes/cliente.js';
 import { validarCedula, validarUsuario, validarPassword } from '../security/validadores.js';
 import { hashear, verificar } from '../security/passwordHasher.js';
 import { ROLES, ACCIONES } from '../security/roles.js';
-import { guardar, buscarPorUsuario, buscarPorCedula, existeUsuario } from '../repository/clienteRepository.js';
+import { guardar, buscarPorUsuario, buscarPorCedula, existeUsuario, persistirCambios } from '../repository/clienteRepository.js';
 import { crearSesion, validarToken, cerrarSesion } from './sesionService.js';
 import { tienePermiso, obtenerClienteDeSesion } from './autorizacionService.js';
 import { registrarEvento, EVENTOS } from './auditoriaService.js';
@@ -100,6 +100,7 @@ export function login(usuario, password) {
 
     if (!passwordCorrecta) {
         const quedoBloqueado = cliente.registrarIntentoFallido();
+        persistirCambios();
         registrarEvento(EVENTOS.LOGIN_FALLIDO, cliente.usuario, `Contraseña incorrecta (intento ${cliente.intentosFallidos})`);
         if (quedoBloqueado) {
             registrarEvento(EVENTOS.BLOQUEO, cliente.usuario, `Bloqueado tras ${cliente.intentosFallidos} intentos fallidos`);
@@ -109,6 +110,7 @@ export function login(usuario, password) {
 
     // Todo correcto: se reinician los intentos y se crea la sesión
     cliente.reiniciarIntentos();
+    persistirCambios();
     const sesion = crearSesion(cliente.cedula);
     registrarEvento(EVENTOS.LOGIN_EXITOSO, cliente.usuario);
     return sesion.token;
@@ -153,6 +155,7 @@ function prepararAccionDeAdmin(tokenAdmin, cedula, permiso) {
 export function bloquearCliente(tokenAdmin, cedula) {
     const { admin, cliente } = prepararAccionDeAdmin(tokenAdmin, cedula, ACCIONES.BLOQUEAR_CLIENTE);
     cliente.bloquear();
+    persistirCambios();
     registrarEvento(EVENTOS.BLOQUEO, cliente.usuario, `Bloqueado por el administrador ${admin.usuario}`);
 }
 
@@ -162,5 +165,6 @@ export function bloquearCliente(tokenAdmin, cedula) {
 export function desbloquearCliente(tokenAdmin, cedula) {
     const { admin, cliente } = prepararAccionDeAdmin(tokenAdmin, cedula, ACCIONES.DESBLOQUEAR_CLIENTE);
     cliente.desbloquear();
+    persistirCambios();
     registrarEvento(EVENTOS.DESBLOQUEO, cliente.usuario, `Desbloqueado por el administrador ${admin.usuario}`);
 }

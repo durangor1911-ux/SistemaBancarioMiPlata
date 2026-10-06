@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Bancario Mi Plata</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --card: #ffffff;
+        --titulo: #1f2937;
+        --texto: #374151;
+        --linea: #dfe7f1;
+        --primario: #2563eb;
+        --primario-hover: #1d4ed8;
+        --exito: #0f766e;
+        --error: #b91c1c;
+        --info: #1d4ed8;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: var(--bg);
+        color: var(--texto);
+      }
+      .contenedor {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        color: var(--titulo);
+        margin-bottom: 30px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+      }
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--linea);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
+      }
+      h2 { margin-top: 0; color: var(--titulo); }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      input, select {
+        padding: 10px 12px;
+        border: 1px solid var(--linea);
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+      }
+      input:focus, select:focus {
+        outline: 2px solid rgba(37, 99, 235, 0.15);
+        border-color: var(--primario);
+      }
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-primario {
+        background: var(--primario);
+        color: white;
+      }
+      .btn-primario:hover { background: var(--primario-hover); }
+      .btn-secundario {
+        background: #e5e7eb;
+        color: var(--titulo);
+      }
+      .estado {
+        margin-top: 18px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 14px;
+        border: 1px solid transparent;
+        min-height: 50px;
+      }
+      .estado.info {
+        background: rgba(29, 78, 216, 0.08);
+        border-color: rgba(29, 78, 216, 0.2);
+        color: var(--info);
+      }
+      .estado.exito {
+        background: rgba(15, 118, 110, 0.08);
+        border-color: rgba(15, 118, 110, 0.2);
+        color: var(--exito);
+      }
+      .estado.error {
+        background: rgba(185, 28, 28, 0.08);
+        border-color: rgba(185, 28, 28, 0.2);
+        color: var(--error);
+      }
+      .token-box {
+        margin-top: 16px;
+        word-break: break-all;
+        background: #f8fafc;
+        border: 1px solid var(--linea);
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 13px;
+      }
+      .clientes-panel { margin-top: 24px; }
+      .panel-bancario { margin-top: 24px; }
+      .acciones-panel, .fila-formularios { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
+      .producto-card { border: 1px solid var(--linea); border-radius: 10px; padding: 16px; background: #f8fafc; }
+      .producto-card h3 { margin-top: 0; }
+      .form-operacion { border: 1px solid var(--linea); border-radius: 10px; padding: 18px; }
+      .lista-movimientos { list-style: none; padding: 0; }
+      .lista-movimientos li { padding: 10px 0; border-bottom: 1px solid var(--linea); }
+      .acciones-panel button { margin-top: 4px; }
+      .tabla-contenedor { overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; min-width: 650px; }
+      th, td { padding: 12px; border-bottom: 1px solid var(--linea); text-align: left; }
+      th { color: var(--titulo); background: #f8fafc; }
+      .btn-eliminar { background: #fee2e2; color: #991b1b; padding: 8px 10px; }
+      .btn-eliminar:hover { background: #fecaca; }
+      .clientes-acciones { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      @media (max-width: 520px) {
+        .contenedor { margin: 12px auto; padding: 12px; }
+        .panel { padding: 18px; }
+        .clientes-acciones { align-items: flex-start; flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>Sistema Bancario Mi Plata</h1>
+
+      <div class="grid" id="panelAcceso">
+        <section class="panel">
+          <h2>Registrarme</h2>
+          <form id="formRegistro">
+            <label>
+              Cedula
+              <input type="text" id="cedula" name="cedula" placeholder="12345678" required />
+            </label>
+
+            <label>
+              Nombre completo
+              <input type="text" id="nombreCompleto" name="nombreCompleto" placeholder="Yony F Lopez M" required />
+            </label>
+
+            <label>
+              Celular
+              <input type="text" id="celular" name="celular" placeholder="3001234567" required />
+            </label>
+
+            <label>
+              Usuario
+              <input type="text" id="usuarioRegistro" name="usuario" placeholder="Yony123" required />
+            </label>
+
+            <label>
+              Contraseña
+              <input type="password" id="passwordRegistro" name="password" placeholder="MiClave123" required />
+            </label>
+
+            <label>
+              Confirmar contraseña
+              <input type="password" id="confirmarPassword" name="confirmarPassword" placeholder="Repita la contraseña" required />
+            </label>
+
+            <button type="submit" class="btn-primario">Registrarme</button>
+          </form>
+
+          <div id="estadoRegistro" class="estado info">Aún no has registrado un usuario.</div>
+        </section>
+
+        <section class="panel">
+          <h2>Iniciar sesion</h2>
+          <form id="formLogin">
+            <label>
+              Usuario
+              <input type="text" id="usuarioLogin" name="usuario" placeholder="Yony123" required />
+            </label>
+
+            <label>
+              Contraseña
+              <input type="password" id="passwordLogin" name="password" placeholder="********" required />
+            </label>
+
+            <button type="submit" class="btn-primario">Iniciar sesión</button>
+          </form>
+
+          <div id="estadoLogin" class="estado info">Ingresa tus credenciales para entrar.</div>
+
+          <div id="tokenBox" class="token-box" hidden>
+            <strong>Token:</strong>
+            <div id="tokenTexto"></div>
+          </div>
+
+        </section>
+      </div>
+
+      <section class="panel panel-bancario" id="panelBancario" hidden>
+        <div class="clientes-acciones">
+          <div>
+            <h2 id="saludoUsuario">Mi banca</h2>
+            <p id="rolUsuario"></p>
+          </div>
+          <button id="btnLogout" class="btn-secundario" type="button">Cerrar sesión</button>
+        </div>
+
+        <div class="acciones-panel">
+          <form id="formProducto" class="form-operacion">
+            <h3>Abrir producto</h3>
+            <label>Tipo de producto
+              <select id="tipoProducto" required>
+                <option value="AHORROS">Cuenta de ahorros</option>
+                <option value="CORRIENTE">Cuenta corriente</option>
+                <option value="TARJETA_CREDITO">Tarjeta de crédito</option>
+              </select>
+            </label>
+            <button class="btn-primario" type="submit">Abrir producto</button>
+          </form>
+
+          <form id="formOperacion" class="form-operacion">
+            <h3>Consignar o retirar</h3>
+            <label>Operación
+              <select id="accionOperacion"><option value="consignar">Consignar</option><option value="retirar">Retirar</option></select>
+            </label>
+            <label>Cuenta
+              <select id="cuentaOperacion" required></select>
+            </label>
+            <label>Monto
+              <input id="montoOperacion" type="number" min="1" step="0.01" required />
+            </label>
+            <button class="btn-primario" type="submit">Realizar operación</button>
+          </form>
+
+          <form id="formTransferencia" class="form-operacion">
+            <h3>Transferir</h3>
+            <label>Desde mi cuenta
+              <select id="cuentaOrigen" required></select>
+            </label>
+            <label>Número de cuenta destino
+              <input id="cuentaDestino" type="text" required placeholder="AH-XXXXXXXXXX" />
+            </label>
+            <label>Monto
+              <input id="montoTransferencia" type="number" min="1" step="0.01" required />
+            </label>
+            <button class="btn-primario" type="submit">Enviar transferencia</button>
+          </form>
+
+          <form id="formCompraTarjeta" class="form-operacion">
+            <h3>Compra con tarjeta</h3>
+            <label>Tarjeta
+              <select id="tarjetaCompra" required></select>
+            </label>
+            <label>Monto de compra
+              <input id="montoCompra" type="number" min="1" step="0.01" required />
+            </label>
+            <label>Número de cuotas
+              <input id="cuotasCompra" type="number" min="1" max="48" value="1" required />
+            </label>
+            <button class="btn-primario" type="submit">Registrar compra</button>
+          </form>
+
+          <form id="formPagoTarjeta" class="form-operacion">
+            <h3>Pagar tarjeta</h3>
+            <label>Tarjeta de crédito
+              <select id="tarjetaPago" required></select>
+            </label>
+            <label>Descontar de
+              <select id="cuentaPago" required></select>
+            </label>
+            <label>Monto del pago
+              <input id="montoPago" type="number" min="1" step="0.01" required />
+            </label>
+            <button class="btn-primario" type="submit">Pagar tarjeta</button>
+          </form>
+        </div>
+
+        <div class="panel" style="margin-top: 20px;">
+          <div class="clientes-acciones">
+            <h3>Mis productos</h3>
+            <button id="btnActualizarCuentas" class="btn-secundario" type="button">Actualizar</button>
+          </div>
+          <div id="listaCuentas" class="acciones-panel"></div>
+        </div>
+
+        <div class="panel" style="margin-top: 20px;">
+          <h3>Movimientos</h3>
+          <div class="clientes-acciones">
+            <label>Cuenta
+              <select id="cuentaMovimientos"></select>
+            </label>
+            <button id="btnMovimientos" class="btn-secundario" type="button">Consultar</button>
+          </div>
+          <ul id="listaMovimientos" class="lista-movimientos"></ul>
+        </div>
+
+        <div id="estadoBancario" class="estado info" role="status" aria-live="polite">Inicia una operación.</div>
+      </section>
+
+      <section class="panel clientes-panel" id="panelClientes" hidden>
+        <div class="clientes-acciones">
+          <div>
+            <h2>Usuarios registrados</h2>
+            <p>Estos datos se guardan localmente en el servidor.</p>
+          </div>
+          <button id="btnActualizarClientes" class="btn-secundario" type="button">Actualizar lista</button>
+        </div>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr><th>Cédula</th><th>Nombre</th><th>Usuario</th><th>Celular</th><th>Rol</th><th>Acción</th></tr>
+            </thead>
+            <tbody id="listaClientes">
+              <tr><td colspan="6">Cargando usuarios...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="estadoClientes" class="estado info" role="status" aria-live="polite">Cargando usuarios registrados...</div>
+      </section>
+    </div>
+
+    <script type="module" src="./src/ui.js"></script>
+  </body>
+</html>

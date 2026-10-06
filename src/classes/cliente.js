@@ -10,6 +10,7 @@ import { validarPassword } from '../security/validadores.js';
 import { ROLES } from '../security/roles.js';
 
 const MAXIMO_INTENTOS_FALLIDOS = 3; // al llegar a este número, el cliente se bloquea
+const TOKEN_PERSISTENCIA = Symbol('restaurar-cliente');
 
 export default class Cliente {
 
@@ -23,7 +24,7 @@ export default class Cliente {
     #intentosFallidos;
     #bloqueado;
 
-    constructor(cedula, nombreCompleto, celular, usuario, password, rol = ROLES.CLIENTE) {
+    constructor(cedula, nombreCompleto, celular, usuario, password, rol = ROLES.CLIENTE, tokenPersistencia = null) {
         // Object.values(ROLES) da la lista ["CLIENTE", "ADMIN"]
         if (!Object.values(ROLES).includes(rol)) {
             throw new Error("Rol inválido");
@@ -33,10 +34,48 @@ export default class Cliente {
         this.#nombreCompleto = nombreCompleto;
         this.#celular = celular;
         this.#usuario = usuario;
-        this.#passwordHash = hashear(password); // se guarda el hash, NO la contraseña
+        this.#passwordHash = tokenPersistencia === TOKEN_PERSISTENCIA
+            ? password
+            : hashear(password); // se guarda el hash, NO la contraseña
         this.#rol = rol;
         this.#intentosFallidos = 0;
         this.#bloqueado = false;
+    }
+
+    /**
+     * Reconstruye un cliente desde el archivo local sin volver a hashear la
+     * contraseña. Solo debe utilizarse para cargar datos del repositorio.
+     */
+    static desdePersistencia(datos) {
+        if (!datos || typeof datos.passwordHash !== 'string' || !datos.passwordHash.includes(':')) {
+            throw new Error('Los datos persistidos del cliente no son válidos');
+        }
+        const cliente = new Cliente(
+            datos.cedula,
+            datos.nombreCompleto,
+            datos.celular,
+            datos.usuario,
+            datos.passwordHash,
+            datos.rol,
+            TOKEN_PERSISTENCIA
+        );
+        cliente.#intentosFallidos = Number(datos.intentosFallidos) || 0;
+        cliente.#bloqueado = Boolean(datos.bloqueado);
+        return cliente;
+    }
+
+    /** Devuelve los datos necesarios para restaurar al cliente desde disco. */
+    exportarPersistencia() {
+        return {
+            cedula: this.#cedula,
+            nombreCompleto: this.#nombreCompleto,
+            celular: this.#celular,
+            usuario: this.#usuario,
+            passwordHash: this.#passwordHash,
+            rol: this.#rol,
+            intentosFallidos: this.#intentosFallidos,
+            bloqueado: this.#bloqueado,
+        };
     }
 
     // ===== Getters =====

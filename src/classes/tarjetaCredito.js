@@ -19,6 +19,29 @@ export default class TarjetaCredito extends Cuenta {
     get deuda() { return this.#deuda; }
     get cupoDisponible() { return this.#cupo - this.#deuda; }
 
+    abonar(monto) {
+        if (monto <= 0) throw new Error("El monto del abono debe ser mayor a cero");
+        if (monto > this.#deuda) throw new Error("El abono no puede superar la deuda actual");
+        this.#deuda -= monto;
+        this.registrarMovimiento("Abono a tarjeta", monto);
+        return this.#deuda;
+    }
+
+    static desdePersistencia(datos) {
+        const tarjeta = new TarjetaCredito(datos.numeroCuenta, Number(datos.cupo) || 0);
+        tarjeta.#deuda = Number(datos.deuda) || 0;
+        tarjeta.restaurarEstado(datos);
+        return tarjeta;
+    }
+
+    exportarPersistencia() {
+        return {
+            ...super.exportarPersistencia(),
+            cupo: this.#cupo,
+            deuda: this.#deuda,
+        };
+    }
+
     /**
      * Una tarjeta de crédito no "retira" dinero de un saldo como una cuenta.
      * Se sobrescribe retirar() para dejarlo explícitamente no soportado,

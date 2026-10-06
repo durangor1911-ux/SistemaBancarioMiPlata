@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "description": "Sistema Bancario Mi Plata - Proyecto de Aula CESDE",
   "type": "module",
-  "main": "src/main.js"
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node server.js"
+  }
 }
