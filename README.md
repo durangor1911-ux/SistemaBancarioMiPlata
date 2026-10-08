@@ -2,8 +2,10 @@
 
 ## Ejecutar la aplicación
 
-Desde esta carpeta, inicia el servidor con `npm start` (o `node server.js`) y abre <http://localhost:3000>.
-No abras la página con doble clic; utiliza la dirección HTTP del servidor.
+Desde esta carpeta, inicia el servidor con `npm start` y abre <http://localhost:3000>.
+No abras la página con doble clic: la interfaz utiliza la API del servidor.
+
+La página de inicio, los formularios de acceso y el panel bancario comparten la hoja de estilos responsive `styles.css`. Al iniciar o registrar sesión, el navegador conserva únicamente el token de sesión en `localStorage`; los perfiles, contraseñas protegidas y operaciones siguen persistiendo en los archivos locales del servidor. Al registrarse correctamente, se inicia sesión y se abre el panel automáticamente.
 
 ## Funciones
 

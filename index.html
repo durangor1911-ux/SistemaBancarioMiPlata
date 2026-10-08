@@ -3,339 +3,258 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema Bancario Mi Plata</title>
-    <style>
-      :root {
-        --bg: #f4f7fb;
-        --card: #ffffff;
-        --titulo: #1f2937;
-        --texto: #374151;
-        --linea: #dfe7f1;
-        --primario: #2563eb;
-        --primario-hover: #1d4ed8;
-        --exito: #0f766e;
-        --error: #b91c1c;
-        --info: #1d4ed8;
-      }
-
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: var(--bg);
-        color: var(--texto);
-      }
-      .contenedor {
-        max-width: 1100px;
-        margin: 40px auto;
-        padding: 20px;
-      }
-      h1 {
-        text-align: center;
-        color: var(--titulo);
-        margin-bottom: 30px;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 24px;
-      }
-      .panel {
-        background: var(--card);
-        border: 1px solid var(--linea);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
-      }
-      h2 { margin-top: 0; color: var(--titulo); }
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-      label {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        font-weight: 600;
-        font-size: 14px;
-      }
-      input, select {
-        padding: 10px 12px;
-        border: 1px solid var(--linea);
-        border-radius: 8px;
-        font-size: 14px;
-        background: white;
-      }
-      input:focus, select:focus {
-        outline: 2px solid rgba(37, 99, 235, 0.15);
-        border-color: var(--primario);
-      }
-      button {
-        border: none;
-        border-radius: 8px;
-        padding: 12px 16px;
-        font-size: 15px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-      .btn-primario {
-        background: var(--primario);
-        color: white;
-      }
-      .btn-primario:hover { background: var(--primario-hover); }
-      .btn-secundario {
-        background: #e5e7eb;
-        color: var(--titulo);
-      }
-      .estado {
-        margin-top: 18px;
-        padding: 12px 14px;
-        border-radius: 8px;
-        font-size: 14px;
-        border: 1px solid transparent;
-        min-height: 50px;
-      }
-      .estado.info {
-        background: rgba(29, 78, 216, 0.08);
-        border-color: rgba(29, 78, 216, 0.2);
-        color: var(--info);
-      }
-      .estado.exito {
-        background: rgba(15, 118, 110, 0.08);
-        border-color: rgba(15, 118, 110, 0.2);
-        color: var(--exito);
-      }
-      .estado.error {
-        background: rgba(185, 28, 28, 0.08);
-        border-color: rgba(185, 28, 28, 0.2);
-        color: var(--error);
-      }
-      .token-box {
-        margin-top: 16px;
-        word-break: break-all;
-        background: #f8fafc;
-        border: 1px solid var(--linea);
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 13px;
-      }
-      .clientes-panel { margin-top: 24px; }
-      .panel-bancario { margin-top: 24px; }
-      .acciones-panel, .fila-formularios { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
-      .producto-card { border: 1px solid var(--linea); border-radius: 10px; padding: 16px; background: #f8fafc; }
-      .producto-card h3 { margin-top: 0; }
-      .form-operacion { border: 1px solid var(--linea); border-radius: 10px; padding: 18px; }
-      .lista-movimientos { list-style: none; padding: 0; }
-      .lista-movimientos li { padding: 10px 0; border-bottom: 1px solid var(--linea); }
-      .acciones-panel button { margin-top: 4px; }
-      .tabla-contenedor { overflow-x: auto; }
-      table { width: 100%; border-collapse: collapse; min-width: 650px; }
-      th, td { padding: 12px; border-bottom: 1px solid var(--linea); text-align: left; }
-      th { color: var(--titulo); background: #f8fafc; }
-      .btn-eliminar { background: #fee2e2; color: #991b1b; padding: 8px 10px; }
-      .btn-eliminar:hover { background: #fecaca; }
-      .clientes-acciones { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-      @media (max-width: 520px) {
-        .contenedor { margin: 12px auto; padding: 12px; }
-        .panel { padding: 18px; }
-        .clientes-acciones { align-items: flex-start; flex-direction: column; }
-      }
-    </style>
+    <meta name="theme-color" content="#081a33" />
+    <meta name="description" content="Mi Plata, tu banca digital sencilla, segura y siempre cerca." />
+    <title>Mi Plata | Tu banco, a tu ritmo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="contenedor">
-      <h1>Sistema Bancario Mi Plata</h1>
+    <header class="site-header">
+      <a class="brand" href="#inicio" aria-label="Mi Plata, ir al inicio">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>mi<span class="brand-accent">plata</span></span>
+      </a>
+      <nav class="header-nav" aria-label="Navegación principal">
+        <a href="#nosotros">Nosotros</a>
+        <a href="#acceso">Personas</a>
+        <a class="button button-small button-outline" href="#formLogin">Iniciar sesión</a>
+        <a class="button button-small button-primary" href="#formRegistro">Registrarme</a>
+      </nav>
+    </header>
 
-      <div class="grid" id="panelAcceso">
-        <section class="panel">
-          <h2>Registrarme</h2>
-          <form id="formRegistro">
-            <label>
-              Cedula
-              <input type="text" id="cedula" name="cedula" placeholder="12345678" required />
-            </label>
-
-            <label>
-              Nombre completo
-              <input type="text" id="nombreCompleto" name="nombreCompleto" placeholder="Yony F Lopez M" required />
-            </label>
-
-            <label>
-              Celular
-              <input type="text" id="celular" name="celular" placeholder="3001234567" required />
-            </label>
-
-            <label>
-              Usuario
-              <input type="text" id="usuarioRegistro" name="usuario" placeholder="Yony123" required />
-            </label>
-
-            <label>
-              Contraseña
-              <input type="password" id="passwordRegistro" name="password" placeholder="MiClave123" required />
-            </label>
-
-            <label>
-              Confirmar contraseña
-              <input type="password" id="confirmarPassword" name="confirmarPassword" placeholder="Repita la contraseña" required />
-            </label>
-
-            <button type="submit" class="btn-primario">Registrarme</button>
-          </form>
-
-          <div id="estadoRegistro" class="estado info">Aún no has registrado un usuario.</div>
-        </section>
-
-        <section class="panel">
-          <h2>Iniciar sesion</h2>
-          <form id="formLogin">
-            <label>
-              Usuario
-              <input type="text" id="usuarioLogin" name="usuario" placeholder="Yony123" required />
-            </label>
-
-            <label>
-              Contraseña
-              <input type="password" id="passwordLogin" name="password" placeholder="********" required />
-            </label>
-
-            <button type="submit" class="btn-primario">Iniciar sesión</button>
-          </form>
-
-          <div id="estadoLogin" class="estado info">Ingresa tus credenciales para entrar.</div>
-
-          <div id="tokenBox" class="token-box" hidden>
-            <strong>Token:</strong>
-            <div id="tokenTexto"></div>
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-content">
+          <span class="eyebrow"><span class="eyebrow-dot"></span> TU BANCO, A TU RITMO</span>
+          <h1>Tu plata.<br /><span>Tu camino.</span></h1>
+          <p class="hero-copy">Una forma más simple de estar al día con tu dinero. Organiza tus cuentas, mueve tu plata y sigue cada paso desde un solo lugar.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#formRegistro">Quiero registrarme <span aria-hidden="true">↗</span></a>
+            <a class="button button-ghost" href="#formLogin">Ya tengo una cuenta</a>
           </div>
-
-        </section>
-      </div>
-
-      <section class="panel panel-bancario" id="panelBancario" hidden>
-        <div class="clientes-acciones">
-          <div>
-            <h2 id="saludoUsuario">Mi banca</h2>
-            <p id="rolUsuario"></p>
+          <div class="hero-note"><span class="security-icon" aria-hidden="true">✓</span> Una experiencia bancaria pensada para ti.</div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-orbit orbit-one"></div>
+          <div class="hero-orbit orbit-two"></div>
+          <div class="hero-spark spark-one">✳</div>
+          <div class="hero-spark spark-two">✦</div>
+          <div class="hero-card">
+            <div class="hero-card-top"><span class="mini-brand">mi<span>plata</span></span><span class="card-chip"></span></div>
+            <span class="hero-card-label">ASÍ SE SIENTE TENER EL CONTROL</span>
+            <div class="hero-card-amount">A tu manera<span>.</span></div>
+            <div class="hero-card-bottom"><span>Simple · Cercano · Contigo</span><span class="card-waves">◔</span></div>
           </div>
-          <button id="btnLogout" class="btn-secundario" type="button">Cerrar sesión</button>
+          <div class="floating-note"><span class="floating-icon">↗</span><span><strong>Siempre en movimiento</strong><small>Tu día, más organizado</small></span></div>
         </div>
-
-        <div class="acciones-panel">
-          <form id="formProducto" class="form-operacion">
-            <h3>Abrir producto</h3>
-            <label>Tipo de producto
-              <select id="tipoProducto" required>
-                <option value="AHORROS">Cuenta de ahorros</option>
-                <option value="CORRIENTE">Cuenta corriente</option>
-                <option value="TARJETA_CREDITO">Tarjeta de crédito</option>
-              </select>
-            </label>
-            <button class="btn-primario" type="submit">Abrir producto</button>
-          </form>
-
-          <form id="formOperacion" class="form-operacion">
-            <h3>Consignar o retirar</h3>
-            <label>Operación
-              <select id="accionOperacion"><option value="consignar">Consignar</option><option value="retirar">Retirar</option></select>
-            </label>
-            <label>Cuenta
-              <select id="cuentaOperacion" required></select>
-            </label>
-            <label>Monto
-              <input id="montoOperacion" type="number" min="1" step="0.01" required />
-            </label>
-            <button class="btn-primario" type="submit">Realizar operación</button>
-          </form>
-
-          <form id="formTransferencia" class="form-operacion">
-            <h3>Transferir</h3>
-            <label>Desde mi cuenta
-              <select id="cuentaOrigen" required></select>
-            </label>
-            <label>Número de cuenta destino
-              <input id="cuentaDestino" type="text" required placeholder="AH-XXXXXXXXXX" />
-            </label>
-            <label>Monto
-              <input id="montoTransferencia" type="number" min="1" step="0.01" required />
-            </label>
-            <button class="btn-primario" type="submit">Enviar transferencia</button>
-          </form>
-
-          <form id="formCompraTarjeta" class="form-operacion">
-            <h3>Compra con tarjeta</h3>
-            <label>Tarjeta
-              <select id="tarjetaCompra" required></select>
-            </label>
-            <label>Monto de compra
-              <input id="montoCompra" type="number" min="1" step="0.01" required />
-            </label>
-            <label>Número de cuotas
-              <input id="cuotasCompra" type="number" min="1" max="48" value="1" required />
-            </label>
-            <button class="btn-primario" type="submit">Registrar compra</button>
-          </form>
-
-          <form id="formPagoTarjeta" class="form-operacion">
-            <h3>Pagar tarjeta</h3>
-            <label>Tarjeta de crédito
-              <select id="tarjetaPago" required></select>
-            </label>
-            <label>Descontar de
-              <select id="cuentaPago" required></select>
-            </label>
-            <label>Monto del pago
-              <input id="montoPago" type="number" min="1" step="0.01" required />
-            </label>
-            <button class="btn-primario" type="submit">Pagar tarjeta</button>
-          </form>
-        </div>
-
-        <div class="panel" style="margin-top: 20px;">
-          <div class="clientes-acciones">
-            <h3>Mis productos</h3>
-            <button id="btnActualizarCuentas" class="btn-secundario" type="button">Actualizar</button>
-          </div>
-          <div id="listaCuentas" class="acciones-panel"></div>
-        </div>
-
-        <div class="panel" style="margin-top: 20px;">
-          <h3>Movimientos</h3>
-          <div class="clientes-acciones">
-            <label>Cuenta
-              <select id="cuentaMovimientos"></select>
-            </label>
-            <button id="btnMovimientos" class="btn-secundario" type="button">Consultar</button>
-          </div>
-          <ul id="listaMovimientos" class="lista-movimientos"></ul>
-        </div>
-
-        <div id="estadoBancario" class="estado info" role="status" aria-live="polite">Inicia una operación.</div>
+        <a class="scroll-cue" href="#nosotros" aria-label="Conoce Mi Plata">↓</a>
       </section>
 
-      <section class="panel clientes-panel" id="panelClientes" hidden>
-        <div class="clientes-acciones">
-          <div>
-            <h2>Usuarios registrados</h2>
-            <p>Estos datos se guardan localmente en el servidor.</p>
-          </div>
-          <button id="btnActualizarClientes" class="btn-secundario" type="button">Actualizar lista</button>
+      <section class="intro-section section-wrap" id="nosotros">
+        <div class="section-heading">
+          <span class="eyebrow eyebrow-dark">BANCA QUE VA CONTIGO</span>
+          <h2>Lo importante es que <span>tú decides.</span></h2>
+          <p>Mi Plata es una plataforma bancaria académica que pone tus productos y operaciones en un espacio claro, práctico y fácil de usar.</p>
         </div>
-        <div class="tabla-contenedor">
-          <table>
-            <thead>
-              <tr><th>Cédula</th><th>Nombre</th><th>Usuario</th><th>Celular</th><th>Rol</th><th>Acción</th></tr>
-            </thead>
-            <tbody id="listaClientes">
-              <tr><td colspan="6">Cargando usuarios...</td></tr>
-            </tbody>
-          </table>
+        <div class="feature-grid">
+          <article class="feature-card"><span class="feature-icon icon-blue">◉</span><h3>Todo a la vista</h3><p>Consulta tus saldos y productos desde un panel hecho para darte claridad.</p></article>
+          <article class="feature-card"><span class="feature-icon icon-mint">↗</span><h3>Muévete con libertad</h3><p>Consigna, retira o transfiere entre cuentas de forma sencilla.</p></article>
+          <article class="feature-card"><span class="feature-icon icon-lilac">⌁</span><h3>Cada paso cuenta</h3><p>Revisa tus movimientos y mantén tus operaciones siempre a mano.</p></article>
         </div>
-        <div id="estadoClientes" class="estado info" role="status" aria-live="polite">Cargando usuarios registrados...</div>
       </section>
-    </div>
 
+      <section class="access-section" id="acceso">
+        <div class="section-wrap">
+          <div class="section-heading access-heading">
+            <span class="eyebrow eyebrow-dark">EMPIEZA POR AQUÍ</span>
+            <h2>Qué bueno tenerte <span>por acá.</span></h2>
+            <p>Entra a tu cuenta o crea tu espacio en Mi Plata.</p>
+          </div>
+          <div class="access-grid" id="panelAcceso">
+            <section class="surface-card access-card" aria-labelledby="loginTitle">
+              <div class="card-heading">
+                <span class="form-icon">↗</span>
+                <div><span class="card-kicker">QUÉ BUENO VERTE</span><h3 id="loginTitle">Inicia sesión</h3></div>
+              </div>
+              <p class="card-description">Continúa justo donde lo dejaste.</p>
+              <form id="formLogin" class="form-stack">
+                <label>Nombre de usuario
+                  <input type="text" id="usuarioLogin" name="usuario" autocomplete="username" placeholder="Tu usuario" required />
+                </label>
+                <label>Contraseña
+                  <input type="password" id="passwordLogin" name="password" autocomplete="current-password" placeholder="Tu contraseña" required />
+                </label>
+                <button type="submit" class="button button-primary button-full">Entrar a mi cuenta <span aria-hidden="true">→</span></button>
+              </form>
+              <div id="estadoLogin" class="message info" role="status" aria-live="polite">Ingresa tus datos para continuar.</div>
+              <p class="form-switch">¿Todavía no tienes cuenta? <a href="#formRegistro">Regístrate aquí</a></p>
+            </section>
+
+            <section class="surface-card access-card register-card" aria-labelledby="registerTitle">
+              <div class="card-heading">
+                <span class="form-icon form-icon-green">✳</span>
+                <div><span class="card-kicker">EMPIEZA HOY</span><h3 id="registerTitle">Crea tu cuenta</h3></div>
+              </div>
+              <p class="card-description">Unos datos y ya estás más cerca.</p>
+              <form id="formRegistro" class="form-stack form-grid">
+                <label>Cédula
+                  <input type="text" id="cedula" name="cedula" inputmode="numeric" minlength="6" maxlength="10" pattern="[0-9]{6,10}" autocomplete="off" placeholder="12345678" required />
+                </label>
+                <label>Nombre completo
+                  <input type="text" id="nombreCompleto" name="nombreCompleto" autocomplete="name" placeholder="Tu nombre completo" required />
+                </label>
+                <label>Celular
+                  <input type="tel" id="celular" name="celular" inputmode="tel" autocomplete="tel" placeholder="3001234567" required />
+                </label>
+                <label>Nombre de usuario
+                  <input type="text" id="usuarioRegistro" name="usuario" minlength="4" maxlength="20" pattern="[a-zA-Z0-9]{4,20}" autocomplete="username" placeholder="Entre 4 y 20 letras o números" required />
+                </label>
+                <label>Contraseña
+                  <input type="password" id="passwordRegistro" name="password" minlength="8" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required />
+                </label>
+                <label>Confirma tu contraseña
+                  <input type="password" id="confirmarPassword" name="confirmarPassword" minlength="8" autocomplete="new-password" placeholder="Repite tu contraseña" required />
+                </label>
+                <button type="submit" class="button button-dark button-full form-submit">Crear mi cuenta <span aria-hidden="true">→</span></button>
+              </form>
+              <div id="estadoRegistro" class="message info" role="status" aria-live="polite">Tu información se valida de forma segura.</div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard" id="panelBancario" hidden>
+        <div class="dashboard-layout">
+          <aside class="dashboard-sidebar">
+            <a class="brand sidebar-brand" href="#resumen"><span class="brand-mark" aria-hidden="true">M</span><span>mi<span class="brand-accent">plata</span></span></a>
+            <span class="sidebar-caption">TU ESPACIO</span>
+            <nav class="dashboard-nav" aria-label="Navegación de tu cuenta">
+              <a href="#resumen"><span>◫</span> Resumen</a>
+              <a href="#operaciones"><span>↕</span> Consignar o retirar</a>
+              <a href="#transferencias"><span>↗</span> Transferencias</a>
+              <a href="#productos"><span>▤</span> Mis productos</a>
+              <a href="#movimientos"><span>◷</span> Movimientos</a>
+              <a href="#perfil"><span>◉</span> Mi perfil</a>
+            </nav>
+            <div class="sidebar-bottom"><span class="sidebar-caption">¿QUIERES SALIR?</span><button id="btnLogout" class="logout-button" type="button"><span>↪</span> Cerrar sesión</button></div>
+          </aside>
+
+          <div class="dashboard-main">
+            <header class="dashboard-topbar">
+              <div><span class="topbar-caption">TU BANCA DIGITAL</span><strong>Mi espacio</strong></div>
+              <div class="user-chip"><span class="avatar" id="avatarUsuario">M</span><span id="topbarUsuario">Mi cuenta</span></div>
+            </header>
+            <div class="dashboard-content">
+              <section class="welcome-row" id="resumen">
+                <div><span class="eyebrow eyebrow-dark">TU DINERO, EN PERSPECTIVA</span><h1 id="saludoUsuario">Hola, bienvenido</h1><p id="rolUsuario">Este es el resumen de tu espacio financiero.</p></div>
+                <span class="today-pill"><span></span> Tu espacio está listo</span>
+              </section>
+              <section class="balance-banner" aria-label="Resumen de saldo">
+                <div><span class="balance-label">SALDO TOTAL EN CUENTAS</span><h2 id="saldoTotal">$ 0</h2><p>El total de tus cuentas de ahorro y corriente.</p></div>
+                <div class="balance-decoration" aria-hidden="true"><span>mi plata</span><b>↗</b></div>
+              </section>
+              <div id="estadoBancario" class="message info" role="status" aria-live="polite">Inicia una operación.</div>
+
+              <section class="dashboard-section" id="operaciones">
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">OPERACIONES</span><h2>Consignar o retirar</h2></div><span class="section-symbol">↕</span></div>
+                <form id="formOperacion" class="operation-form surface-card">
+                  <label>¿Qué quieres hacer?
+                    <select id="accionOperacion"><option value="consignar">Consignar</option><option value="retirar">Retirar</option></select>
+                  </label>
+                  <label>Selecciona una cuenta
+                    <select id="cuentaOperacion" required></select>
+                  </label>
+                  <label>Monto
+                    <input id="montoOperacion" type="number" min="1" step="0.01" inputmode="decimal" placeholder="0" required />
+                  </label>
+                  <button class="button button-primary" type="submit">Continuar <span aria-hidden="true">→</span></button>
+                </form>
+              </section>
+
+              <section class="dashboard-section" id="transferencias">
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">ENTRE CUENTAS</span><h2>Haz una transferencia</h2></div><span class="section-symbol">↗</span></div>
+                <form id="formTransferencia" class="operation-form surface-card">
+                  <label>Cuenta de origen
+                    <select id="cuentaOrigen" required></select>
+                  </label>
+                  <label>Número de cuenta destino
+                    <input id="cuentaDestino" type="text" placeholder="AH-XXXXXXXXXX" required />
+                  </label>
+                  <label>Monto
+                    <input id="montoTransferencia" type="number" min="1" step="0.01" inputmode="decimal" placeholder="0" required />
+                  </label>
+                  <button class="button button-primary" type="submit">Enviar transferencia <span aria-hidden="true">→</span></button>
+                </form>
+              </section>
+
+              <section class="dashboard-section" id="productos">
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">A TU ALCANCE</span><h2>Mis productos</h2></div><button id="btnActualizarCuentas" class="button button-outline button-small" type="button">Actualizar</button></div>
+                <form id="formProducto" class="product-create surface-card">
+                  <label>Abre un producto
+                    <select id="tipoProducto" required>
+                      <option value="AHORROS">Cuenta de ahorros</option>
+                      <option value="CORRIENTE">Cuenta corriente</option>
+                      <option value="TARJETA_CREDITO">Tarjeta de crédito</option>
+                    </select>
+                  </label>
+                  <button class="button button-dark" type="submit">Abrir producto <span aria-hidden="true">+</span></button>
+                </form>
+                <div id="listaCuentas" class="product-grid"></div>
+              </section>
+
+              <section class="dashboard-section extra-products">
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">TARJETA DE CRÉDITO</span><h2>Compras y pagos</h2></div></div>
+                <div class="operation-grid">
+                  <form id="formCompraTarjeta" class="surface-card compact-form">
+                    <h3>Registrar una compra</h3>
+                    <label>Tarjeta<select id="tarjetaCompra" required></select></label>
+                    <label>Monto de compra<input id="montoCompra" type="number" min="1" step="0.01" inputmode="decimal" required /></label>
+                    <label>Número de cuotas<input id="cuotasCompra" type="number" min="1" max="48" value="1" required /></label>
+                    <button class="button button-primary" type="submit">Registrar compra</button>
+                  </form>
+                  <form id="formPagoTarjeta" class="surface-card compact-form">
+                    <h3>Pagar tarjeta</h3>
+                    <label>Tarjeta de crédito<select id="tarjetaPago" required></select></label>
+                    <label>Descontar de<select id="cuentaPago" required></select></label>
+                    <label>Monto del pago<input id="montoPago" type="number" min="1" step="0.01" inputmode="decimal" required /></label>
+                    <button class="button button-primary" type="submit">Pagar tarjeta</button>
+                  </form>
+                </div>
+              </section>
+
+              <section class="dashboard-section" id="movimientos">
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">TU HISTORIAL</span><h2>Movimientos</h2></div><span class="section-symbol">◷</span></div>
+                <div class="surface-card movements-card">
+                  <div class="movement-controls"><label>Elige un producto<select id="cuentaMovimientos"></select></label><button id="btnMovimientos" class="button button-outline" type="button">Consultar movimientos</button></div>
+                  <ul id="listaMovimientos" class="movement-list"><li class="empty-state">Elige un producto para consultar sus movimientos.</li></ul>
+                </div>
+              </section>
+
+              <section class="dashboard-section" id="perfil">
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">TU INFORMACIÓN</span><h2>Mi perfil</h2></div><span class="section-symbol">◉</span></div>
+                <div class="surface-card profile-card">
+                  <span class="profile-avatar" id="avatarPerfil">M</span>
+                  <div class="profile-details"><div><span>Nombre completo</span><strong id="perfilNombre">—</strong></div><div><span>Nombre de usuario</span><strong id="perfilUsuario">—</strong></div><div><span>Cédula</span><strong id="perfilCedula">—</strong></div><div><span>Celular</span><strong id="perfilCelular">—</strong></div><div><span>Tipo de perfil</span><strong id="perfilRol">—</strong></div></div>
+                </div>
+              </section>
+
+              <section class="surface-card admin-card" id="panelClientes" hidden>
+                <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">ADMINISTRACIÓN</span><h2>Usuarios registrados</h2><p>Datos almacenados localmente en el servidor.</p></div><button id="btnActualizarClientes" class="button button-outline button-small" type="button">Actualizar lista</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Usuario</th><th>Celular</th><th>Rol</th><th>Acción</th></tr></thead><tbody id="listaClientes"><tr><td colspan="6">Cargando usuarios...</td></tr></tbody></table></div>
+                <div id="estadoClientes" class="message info" role="status" aria-live="polite">Cargando usuarios registrados...</div>
+              </section>
+
+              <footer class="dashboard-footer">Mi Plata · Simulador bancario académico. Las consignaciones no representan dinero real.</footer>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer"><a class="brand footer-brand" href="#inicio"><span class="brand-mark" aria-hidden="true">M</span><span>mi<span class="brand-accent">plata</span></span></a><span>Una banca más cerca de ti.</span><span>© <span id="currentYear"></span> Mi Plata · Proyecto académico CESDE</span></footer>
     <script type="module" src="./src/ui.js"></script>
   </body>
 </html>

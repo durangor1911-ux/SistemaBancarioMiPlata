@@ -56,6 +56,7 @@ export function obtenerResumenSesion(token) {
   return {
     cedula: cliente.cedula,
     nombreCompleto: cliente.nombreCompleto,
+    celular: cliente.celular,
     usuario: cliente.usuario,
     rol: cliente.rol,
     cuentas: listarCuentasPorCliente(cliente.cedula).map(presentarCuenta),
