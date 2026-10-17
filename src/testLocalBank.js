@@ -55,6 +55,24 @@ const datosPersistidos = JSON.parse(globalThis.localStorage.getItem('miPlataDato
 assert.equal(datosPersistidos.cuentas.length, 4);
 assert.equal(datosPersistidos.cuentas.find(registro => registro.cuenta.numeroCuenta === ahorros1.numeroCuenta).cuenta.movimientos.length, 3);
 
+assert.throws(() => banco.actualizarUsuario(sesion1.cedula, 'cliente02'), /ya está registrado/);
+assert.throws(() => banco.actualizarUsuario(sesion1.cedula, 'ab'), /entre 4 y 20/);
+const sesionActualizada = banco.actualizarUsuario(sesion1.cedula, 'nuevoUsuario01');
+assert.equal(sesionActualizada.usuario, 'nuevoUsuario01');
+await assert.rejects(banco.iniciarSesion('cliente01', 'PruebaSegura123'));
+assert.equal((await banco.iniciarSesion('nuevoUsuario01', 'PruebaSegura123')).cedula, sesion1.cedula);
+await assert.rejects(
+  banco.actualizarPassword(sesion1.cedula, 'ClaveIncorrecta123', 'OtraClave123', 'OtraClave123'),
+  /actual no es correcta/
+);
+await assert.rejects(
+  banco.actualizarPassword(sesion1.cedula, 'PruebaSegura123', 'OtraClave123', 'Diferente123'),
+  /no coinciden/
+);
+await banco.actualizarPassword(sesion1.cedula, 'PruebaSegura123', 'OtraClave123', 'OtraClave123');
+await assert.rejects(banco.iniciarSesion('nuevoUsuario01', 'PruebaSegura123'));
+assert.equal((await banco.iniciarSesion('nuevoUsuario01', 'OtraClave123')).cedula, sesion1.cedula);
+
 banco.cerrarSesion();
 assert.equal(banco.restaurarSesion(), null);
 console.log('Pruebas locales OK: registro, acceso, productos, transacciones, transferencia, tarjeta e historial persistente.');

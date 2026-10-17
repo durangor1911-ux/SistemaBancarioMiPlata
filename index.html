@@ -234,7 +234,37 @@
                 <div class="dashboard-section-heading"><div><span class="eyebrow eyebrow-dark">TU INFORMACIÓN</span><h2>Mi perfil</h2></div><span class="section-symbol">◉</span></div>
                 <div class="surface-card profile-card">
                   <span class="profile-avatar" id="avatarPerfil">M</span>
-                  <div class="profile-details"><div><span>Nombre completo</span><strong id="perfilNombre">—</strong></div><div><span>Nombre de usuario</span><strong id="perfilUsuario">—</strong></div><div><span>Cédula</span><strong id="perfilCedula">—</strong></div><div><span>Celular</span><strong id="perfilCelular">—</strong></div><div><span>Tipo de perfil</span><strong id="perfilRol">—</strong></div></div>
+                  <div class="profile-details">
+                    <div><span>Nombre completo</span><strong id="perfilNombre">—</strong></div>
+                    <div><span>Cédula</span><strong id="perfilCedula">—</strong></div>
+                    <div><span>Celular</span><strong id="perfilCelular">—</strong></div>
+                    <div><span>Tipo de perfil</span><strong id="perfilRol">—</strong></div>
+                    <div class="profile-edit-field">
+                      <span>Nombre de usuario</span>
+                      <div class="profile-value-row"><strong id="perfilUsuario">—</strong><button id="btnEditarUsuario" class="profile-edit-button" type="button" aria-expanded="false" aria-controls="formEditarUsuario">Editar</button></div>
+                      <form id="formEditarUsuario" class="profile-inline-form" hidden>
+                        <label for="nuevoNombreUsuario">Nuevo nombre de usuario</label>
+                        <input id="nuevoNombreUsuario" type="text" minlength="4" maxlength="20" pattern="[a-zA-Z0-9]{4,20}" autocomplete="username" required />
+                        <div class="profile-form-actions"><button class="button button-primary button-small" type="submit">Guardar</button><button id="btnCancelarUsuario" class="profile-cancel-button" type="button">Cancelar</button></div>
+                        <div id="estadoEditarUsuario" class="message info" role="status" aria-live="polite"></div>
+                      </form>
+                    </div>
+                    <div class="profile-edit-field">
+                      <span>Contraseña</span>
+                      <div class="profile-value-row"><strong aria-label="Contraseña oculta">••••••••</strong><button id="btnEditarPassword" class="profile-edit-button" type="button" aria-expanded="false" aria-controls="formEditarPassword">Editar</button></div>
+                      <form id="formEditarPassword" class="profile-inline-form" hidden>
+                        <label for="passwordActual">Contraseña actual</label>
+                        <input id="passwordActual" type="password" autocomplete="current-password" required />
+                        <label for="passwordNuevo">Nueva contraseña</label>
+                        <input id="passwordNuevo" type="password" minlength="8" autocomplete="new-password" required />
+                        <label for="confirmarPasswordNuevo">Confirmar nueva contraseña</label>
+                        <input id="confirmarPasswordNuevo" type="password" minlength="8" autocomplete="new-password" required />
+                        <small>Debe tener al menos 8 caracteres, mayúscula, minúscula y número.</small>
+                        <div class="profile-form-actions"><button class="button button-primary button-small" type="submit">Guardar</button><button id="btnCancelarPassword" class="profile-cancel-button" type="button">Cancelar</button></div>
+                        <div id="estadoEditarPassword" class="message info" role="status" aria-live="polite"></div>
+                      </form>
+                    </div>
+                  </div>
                 </div>
               </section>
 

@@ -1,5 +1,7 @@
 import {
   abrirProducto,
+  actualizarUsuario,
+  actualizarPassword,
   cerrarSesion as cerrarSesionLocal,
   hacerTransferencia,
   iniciarSesion,
@@ -75,6 +77,7 @@ function actualizarPerfil(sesion) {
   document.getElementById('avatarPerfil').textContent = inicial;
   document.getElementById('perfilNombre').textContent = sesion.nombreCompleto || '—';
   document.getElementById('perfilUsuario').textContent = sesion.usuario || '—';
+  document.getElementById('nuevoNombreUsuario').value = sesion.usuario || '';
   document.getElementById('perfilCedula').textContent = sesion.cedula || '—';
   document.getElementById('perfilCelular').textContent = sesion.celular || '—';
   document.getElementById('perfilRol').textContent = sesion.rol || 'CLIENTE';
@@ -201,6 +204,50 @@ function cerrarSesion() {
   document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' });
 }
 
+function editarUsuarioDesdeFormulario(evento) {
+  evento.preventDefault();
+  try {
+    sesionActual = actualizarUsuario(sesionActual.cedula, document.getElementById('nuevoNombreUsuario').value);
+    actualizarPerfil(sesionActual);
+    mostrarMensaje('estadoEditarUsuario', 'Nombre de usuario actualizado correctamente.', 'exito');
+  } catch (error) {
+    mostrarMensaje('estadoEditarUsuario', error.message, 'error');
+  }
+}
+
+async function editarPasswordDesdeFormulario(evento) {
+  evento.preventDefault();
+  const campoActual = document.getElementById('passwordActual');
+  const campoNuevo = document.getElementById('passwordNuevo');
+  const campoConfirmacion = document.getElementById('confirmarPasswordNuevo');
+  try {
+    await actualizarPassword(sesionActual.cedula, campoActual.value, campoNuevo.value, campoConfirmacion.value);
+    document.getElementById('formEditarPassword').reset();
+    mostrarMensaje('estadoEditarPassword', 'Contraseña actualizada correctamente.', 'exito');
+  } catch (error) {
+    mostrarMensaje('estadoEditarPassword', error.message, 'error');
+  }
+}
+
+function alternarEditor(botonId, formularioId, otroFormularioId, otroBotonId) {
+  const formulario = document.getElementById(formularioId);
+  const mostrar = formulario.hidden;
+  formulario.hidden = !mostrar;
+  document.getElementById(botonId).setAttribute('aria-expanded', String(mostrar));
+  if (mostrar) formulario.querySelector('input')?.focus();
+  if (otroFormularioId && otroBotonId) {
+    document.getElementById(otroFormularioId).hidden = true;
+    document.getElementById(otroBotonId).setAttribute('aria-expanded', 'false');
+  }
+}
+
+function cancelarEdicion(formularioId, botonId) {
+  const formulario = document.getElementById(formularioId);
+  formulario.reset();
+  formulario.hidden = true;
+  document.getElementById(botonId).setAttribute('aria-expanded', 'false');
+}
+
 async function abrirProductoDesdeFormulario(evento) {
   evento.preventDefault();
   try {
@@ -310,6 +357,12 @@ function consultarMovimientos() {
 formRegistro.addEventListener('submit', registrarDesdeFormulario);
 formLogin.addEventListener('submit', iniciarSesionDesdeFormulario);
 document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
+document.getElementById('formEditarUsuario').addEventListener('submit', editarUsuarioDesdeFormulario);
+document.getElementById('formEditarPassword').addEventListener('submit', editarPasswordDesdeFormulario);
+document.getElementById('btnEditarUsuario').addEventListener('click', () => alternarEditor('btnEditarUsuario', 'formEditarUsuario', 'formEditarPassword', 'btnEditarPassword'));
+document.getElementById('btnEditarPassword').addEventListener('click', () => alternarEditor('btnEditarPassword', 'formEditarPassword', 'formEditarUsuario', 'btnEditarUsuario'));
+document.getElementById('btnCancelarUsuario').addEventListener('click', () => cancelarEdicion('formEditarUsuario', 'btnEditarUsuario'));
+document.getElementById('btnCancelarPassword').addEventListener('click', () => cancelarEdicion('formEditarPassword', 'btnEditarPassword'));
 formProducto.addEventListener('submit', abrirProductoDesdeFormulario);
 formOperacion.addEventListener('submit', operarDesdeFormulario);
 formTransferencia.addEventListener('submit', transferirDesdeFormulario);

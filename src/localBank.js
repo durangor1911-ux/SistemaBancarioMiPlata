@@ -190,6 +190,40 @@ export async function iniciarSesion(usuario, password) {
   return crearResumenSesion(cliente);
 }
 
+export function actualizarUsuario(cedula, nuevoUsuario) {
+  const usuarioNormalizado = String(nuevoUsuario || '').trim();
+  validarUsuario(usuarioNormalizado);
+
+  const estado = leerDatos();
+  const cliente = estado.clientes.find(item => item.cedula === cedula);
+  if (!cliente || cliente.bloqueado) throw new Error('No se pudo validar la sesión. Inicia sesión nuevamente.');
+
+  const usuarioEnUso = estado.clientes.some(item =>
+    item.cedula !== cedula && item.usuario.toLowerCase() === usuarioNormalizado.toLowerCase()
+  );
+  if (usuarioEnUso) throw new Error('Ese nombre de usuario ya está registrado. Elige otro.');
+
+  cliente.usuario = usuarioNormalizado;
+  guardarDatos(estado);
+  return vistaCliente(cliente);
+}
+
+export async function actualizarPassword(cedula, passwordActual, passwordNuevo, confirmarPassword) {
+  if (passwordNuevo !== confirmarPassword) throw new Error('La nueva contraseña y su confirmación no coinciden.');
+  validarPassword(passwordNuevo);
+
+  const estado = leerDatos();
+  const cliente = estado.clientes.find(item => item.cedula === cedula);
+  if (!cliente || cliente.bloqueado) throw new Error('No se pudo validar la sesión. Inicia sesión nuevamente.');
+  if (!(await verificarPassword(passwordActual, cliente.passwordHash))) {
+    throw new Error('La contraseña actual no es correcta.');
+  }
+  if (passwordActual === passwordNuevo) throw new Error('La nueva contraseña debe ser diferente de la actual.');
+
+  cliente.passwordHash = await hashearPassword(passwordNuevo);
+  guardarDatos(estado);
+}
+
 export function restaurarSesion() {
   const cedula = almacenamiento().getItem(SESSION_KEY);
   if (!cedula) return null;

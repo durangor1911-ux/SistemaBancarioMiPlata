@@ -1021,6 +1021,78 @@ select:focus {
   overflow-wrap: anywhere;
 }
 
+.profile-edit-field {
+  min-width: 0;
+}
+
+.profile-value-row {
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile-edit-button,
+.profile-cancel-button {
+  padding: 4px 9px;
+  border: 1px solid #d8e1eb;
+  border-radius: 6px;
+  color: var(--blue);
+  background: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profile-edit-button:hover,
+.profile-cancel-button:hover {
+  border-color: #9bb4ce;
+  background: #f4f8fc;
+}
+
+.profile-inline-form {
+  margin-top: 9px;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+  border: 1px solid #e5ebf2;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.profile-inline-form[hidden] {
+  display: none;
+}
+
+.profile-inline-form label,
+.profile-inline-form small {
+  color: #758399;
+  font-size: 10px;
+}
+
+.profile-inline-form input {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid #dce4ed;
+  border-radius: 6px;
+  color: var(--ink);
+  background: #fff;
+  font-size: 12px;
+}
+
+.profile-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-inline-form .message {
+  margin: 0;
+}
+
 .admin-card {
   margin-top: 29px;
   padding: 20px;
