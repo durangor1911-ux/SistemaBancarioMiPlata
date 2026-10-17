@@ -27,76 +27,93 @@ El navegador almacena los datos asociados a este origen local. Si se borran los 
 
 
 
-Historias de Usuario (Metodología Ágil / POO)
-―――――――――――――――――――――――――――――――――――――――――――――――――――――――
-HU-01 · Persona / Cuenta (Clase Base / Abstracta)
-Como: Desarrollador el sistema bancario "Mi Plata".
-Quiero: Definir una clase abstracta base o cuenta que contenga los atributos
-esenciales de cualquier producto financiero (número de cuenta, saldo,
-titular y lista de movimientos) y los métodos genéricos para operar sobre
-ella.
-Para: Garantizar el pilar de Abstracción y reutilizar código estructurado para la
-jerarquía de los productos financieros del banco.
-Criterios de Aceptación:
-1. Toda cuenta debe asociarse obligatoriamente a un Cliente mediante un identificador único.
-2. No debe permitir la instanciación directa de la clase base Cuenta (funciona como plantilla
-abstracta).
-3. Debe implementar el método consignar(monto) validando que el monto ingresado sea un
-número positivo mayor a cero.
-4. Debe mantener una estructura Array (o List<T>) para el historial de movimientos,
-guardando fecha/hora, tipo de transacción y valor.
-HU-02 · Cuenta de Ahorros
-Como: Cliente registrado en la plataforma bancaria.
-Quiero: Realizar consignaciones y retiros en mi Cuenta de Ahorros, aplicando los
-rendimientos e intereses fijados por el banco.
-Para: Guardar mi dinero a mediano y largo plazo y obtener rentabilidad sobre
-mis ahorros.
-Criterios de Aceptación:
-1. Hereda los atributos y comportamientos de la clase base Cuenta.
-2. El saldo no puede ser superado por el monto a retirar (restricción estricta de saldo
-disponible).
-3. Al momento de realizar un retiro, el sistema debe calcular y aplicar automáticamente una
-tasa de interés mensual del 1.5%.
-4. Sobrescribe mediante Polimorfismo el método retirar(monto) adaptándolo a la regla de
-interés del producto.
-HU-03 · Cuenta Corriente
-Como: Cliente de la sucursal "Mi Plata".
-Quiero: Gestionar fondos y realizar retiros en mi Cuenta Corriente con la
-posibilidad de sobregiro autorizado.
-Para: Administrar mis pagos diarios y disponer de liquidez adicional cuando mi
-saldo sea insuficiente.
-Criterios de Aceptación:
-1. Hereda de la clase base Cuenta.
+
+## 📋 Historias de Usuario (Metodología Ágil / POO)
+
+---
+
+### HU-01 · Persona / Cuenta (Clase Base / Abstracta)
+
+- **Como:** Desarrollador del sistema bancario "Mi Plata".
+- **Quiero:** Definir una clase abstracta base `Cuenta` que contenga los atributos esenciales de cualquier producto financiero (número de cuenta, saldo, titular y lista de movimientos) y los métodos genéricos para operar sobre ella.
+- **Para:** Garantizar el pilar de **Abstracción** y reutilizar código estructurado para la jerarquía de los productos financieros del banco.
+
+**Criterios de Aceptación:**
+
+1. Toda cuenta debe asociarse obligatoriamente a un `Cliente` mediante un identificador único.
+2. No debe permitir la instanciación directa de la clase base `Cuenta` (funciona como plantilla abstracta).
+3. Debe implementar el método `consignar(monto)` validando que el monto ingresado sea un número positivo mayor a cero.
+4. Debe mantener una estructura `Array` (o `List<T>`) para el historial de movimientos, guardando fecha/hora, tipo de transacción y valor.
+
+---
+
+### HU-02 · Cuenta de Ahorros
+
+- **Como:** Cliente registrado en la plataforma bancaria.
+- **Quiero:** Realizar consignaciones y retiros en mi Cuenta de Ahorros, aplicando los rendimientos e intereses fijados por el banco.
+- **Para:** Guardar mi dinero a mediano y largo plazo y obtener rentabilidad sobre mis ahorros.
+
+**Criterios de Aceptación:**
+
+1. Hereda los atributos y comportamientos de la clase base `Cuenta`.
+2. El monto a retirar no puede superar el saldo disponible (restricción estricta).
+3. Al realizar un retiro, el sistema debe calcular y aplicar automáticamente una tasa de interés mensual del **1.5%**.
+4. Sobrescribe mediante **Polimorfismo** el método `retirar(monto)`, adaptándolo a la regla de interés del producto.
+
+---
+
+### HU-03 · Cuenta Corriente
+
+- **Como:** Cliente de la sucursal "Mi Plata".
+- **Quiero:** Gestionar fondos y realizar retiros en mi Cuenta Corriente con la posibilidad de sobregiro autorizado.
+- **Para:** Administrar mis pagos diarios y disponer de liquidez adicional cuando mi saldo sea insuficiente.
+
+**Criterios de Aceptación:**
+
+1. Hereda de la clase base `Cuenta`.
 2. No genera ni aplica tasas de interés por retiros o saldos.
-3. Implementa por Polimorfismo el método retirar(monto), permitiendo un sobregiro de hasta
-un 20% adicional sobre el saldo actual (Límite = Saldo × 1.20).
-4. Si el monto a retirar excede el saldo más el 20% de sobregiro, el sistema debe denegar la
-operación y mostrar un mensaje de error explícito.
-HU-04 · Tarjeta de Crédito
-Como: Cliente de la sucursal "Mi Plata".
-Quiero: Diferir mis compras a cuotas seleccionando el plazo en meses y
-visualizando el cálculo de intereses.
-Para: Financiar compras utilizando mi cupo asignado y conocer exactamente el
-valor del cuota mensual a pagar.
-Criterios de Aceptación:
+3. Implementa por **Polimorfismo** el método `retirar(monto)`, permitiendo un sobregiro de hasta un **20%** adicional sobre el saldo actual:
+   ```
+   Límite = Saldo × 1.20
+   ```
+4. Si el monto a retirar excede el saldo más el 20% de sobregiro, el sistema debe denegar la operación y mostrar un mensaje de error explícito.
+
+---
+
+### HU-04 · Tarjeta de Crédito
+
+- **Como:** Cliente de la sucursal "Mi Plata".
+- **Quiero:** Diferir mis compras a cuotas seleccionando el plazo en meses y visualizando el cálculo de intereses.
+- **Para:** Financiar compras utilizando mi cupo asignado y conocer exactamente el valor de la cuota mensual a pagar.
+
+**Criterios de Aceptación:**
+
 1. Hereda los datos del producto bancario y gestiona un cupo de crédito disponible asignado.
-2. Aplica las tasas de interés mensuales según el rango de cuotas: ≤ 2 cuotas (0% interés), 3 a
-6 cuotas (1.9% mensual), ≥ 7 cuotas (2.3% mensual).
-3. Calcula el valor exacto de la cuota mensual mediante la fórmula de amortización: Cuota =
-(Capital × tasa) / (1 - (1 + tasa)^(-n)).
-4. Muestra de forma clara y transparente al usuario el valor del pago mensual resultante antes
-de confirmar la transacción.
-HU-05 · Módulo de Autenticación y Control de Intentos
-Como: Usuario / Cliente del banco.
-Quiero: Iniciar sesión con mis credenciales (usuario y contraseña) contando con
-un límite de intentos fallidos.
-Para: Proteger el acceso a mi información financiera y evitar ataques no
-autorizados.
-Criterios de Aceptación:
+2. Aplica las tasas de interés mensuales según el rango de cuotas:
+
+   | Número de cuotas | Interés mensual |
+   |:----------------:|:---------------:|
+   | ≤ 2              | 0%              |
+   | 3 a 6            | 1.9%            |
+   | ≥ 7              | 2.3%            |
+
+3. Calcula el valor exacto de la cuota mensual mediante la fórmula de amortización:
+   ```
+   Cuota = (Capital × tasa) / (1 - (1 + tasa)^(-n))
+   ```
+4. Muestra de forma clara y transparente al usuario el valor del pago mensual resultante antes de confirmar la transacción.
+
+---
+
+### HU-05 · Módulo de Autenticación y Control de Intentos
+
+- **Como:** Usuario / Cliente del banco.
+- **Quiero:** Iniciar sesión con mis credenciales (usuario y contraseña) contando con un límite de intentos fallidos.
+- **Para:** Proteger el acceso a mi información financiera y evitar ataques no autorizados.
+
+**Criterios de Aceptación:**
+
 1. Muestra en pantalla un contador visible con el número de intentos de inicio de sesión.
-2. Si el usuario ingresa sus datos de forma errónea por 3 intentos consecutivos, el sistema
-debe bloquear automáticamente la cuenta.
-3. Despliega un mensaje informativo claro de retroalimentación notificando el bloqueo de la
-cuenta.
-4. Al autenticarse exitosamente, el usuario es redirigido inmediatamente al panel principal de
-transacciones (Cajero Web).
+2. Si el usuario ingresa sus datos de forma errónea por **3 intentos consecutivos**, el sistema debe bloquear automáticamente la cuenta.
+3. Despliega un mensaje informativo claro notificando el bloqueo de la cuenta.
+4. Al autenticarse exitosamente, el usuario es redirigido inmediatamente al panel principal de transacciones (Cajero Web).
