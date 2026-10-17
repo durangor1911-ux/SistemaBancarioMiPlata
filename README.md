@@ -2,10 +2,12 @@
 
 ## Ejecutar la aplicación
 
-Desde esta carpeta, inicia el servidor con `npm start` y abre <http://localhost:3000>.
-No abras la página con doble clic: la interfaz utiliza la API del servidor.
+Desde esta carpeta, inicia el servidor estático con `npm start` y abre <http://localhost:3000>.
+No hay API bancaria: el servidor solo entrega los archivos de la página y escucha en `127.0.0.1`. Las operaciones se ejecutan en el navegador y la información se guarda en `localStorage` de ese navegador. No abras la página con doble clic; utiliza la dirección local indicada para que el navegador habilite las funciones criptográficas.
 
-La página de inicio, los formularios de acceso y el panel bancario comparten la hoja de estilos responsive `styles.css`. Al iniciar o registrar sesión, el navegador conserva únicamente el token de sesión en `localStorage`; los perfiles, contraseñas protegidas y operaciones siguen persistiendo en los archivos locales del servidor. Al registrarse correctamente, se inicia sesión y se abre el panel automáticamente.
+Para validar el sistema ejecuta `npm test`. No requiere base de datos ni servicios externos. Las cuentas e historiales nuevos quedan en el almacenamiento local del navegador y no se sincronizan con otros navegadores o dispositivos. Las fuentes del sistema también usan tipografías de respaldo para funcionar sin conexión.
+
+La página de inicio, los formularios de acceso y el panel bancario comparten la hoja de estilos responsive `styles.css`. Los perfiles, hashes de contraseña, productos y movimientos se almacenan en `localStorage`. Las contraseñas se protegen con PBKDF2 mediante Web Crypto; no guardamos la contraseña original. Al registrarse correctamente, se inicia sesión y se abre el panel automáticamente. El modo local es para demostración académica: una persona con acceso al navegador puede inspeccionar o modificar el almacenamiento y los roles no son controles de seguridad del lado servidor.
 
 ## Funciones
 
@@ -13,25 +15,12 @@ La página de inicio, los formularios de acceso y el panel bancario comparten la
 - Las cuentas de ahorros descuentan el interés implementado por su clase al retirar. La cuenta corriente aplica su regla de sobregiro.
 - Las compras con tarjeta permiten elegir cuotas; el panel también permite pagar la deuda desde una cuenta propia.
 - Los números de cuenta se comparten con el destinatario para poder recibir transferencias.
-- Los productos y sus movimientos se guardan en `data/cuentas.json`; los perfiles se guardan en `data/clientes.json`. Las contraseñas permanecen como hashes.
+- Los movimientos de cada producto quedan guardados junto con su cuenta en el almacenamiento local del navegador y sobreviven al cierre o recarga de la página en el mismo navegador.
+- Los JSON anteriores en `data/` no se importan automáticamente; el modo local inicia su propio almacenamiento independiente.
 - Es un simulador académico local; las consignaciones no representan dinero real.
 
-## Configurar el administrador
+## Administración y modo local
 
-El formulario público siempre registra perfiles `CLIENTE`; nunca permite elegir `ADMIN`. Para crear el administrador inicial, define en PowerShell estas variables **en la misma terminal** antes de iniciar el servidor:
+La administración de usuarios y la creación de administradores requieren un backend y están desactivadas en el modo sin API. El registro local solo crea perfiles `CLIENTE`.
 
-```powershell
-$env:ADMIN_CEDULA = "REEMPLAZA_CON_CEDULA"
-$env:ADMIN_NOMBRE = "Nombre del administrador"
-$env:ADMIN_CELULAR = "3001234567"
-$env:ADMIN_USUARIO = "admin01"
-$securePassword = Read-Host "Contraseña del administrador" -AsSecureString
-$env:ADMIN_PASSWORD = [System.Net.NetworkCredential]::new("", $securePassword).Password
-npm start
-```
-
-La cédula debe tener de 6 a 10 dígitos, el usuario de 4 a 20 letras/números, y la contraseña debe incluir mayúscula, minúscula y número, con al menos 8 caracteres.
-
-Al arrancar, el servidor crea ese perfil una sola vez y almacena únicamente el hash. Inicia sesión con el usuario/contraseña configurados para ver el panel inferior de usuarios. Solo el administrador autenticado puede consultar o eliminar perfiles; al borrar un cliente también se borran sus cuentas. Las cuentas ADMIN están protegidas contra eliminación.
-
-Si el servidor ya estaba abierto, deténlo y vuelve a iniciarlo después de definir las variables. No compartas ni publiques la contraseña del administrador.
+El navegador almacena los datos asociados a este origen local. Si se borran los datos del navegador, se pierde el historial; exporta o respalda los datos antes de limpiar el almacenamiento. El sistema es un simulador académico y no debe utilizarse con dinero ni credenciales reales.

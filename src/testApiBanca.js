@@ -8,13 +8,13 @@ import { fileURLToPath } from 'node:url';
 const raiz = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const carpetaTemporal = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-plata-api-'));
 const puerto = 31000 + Math.floor(Math.random() * 20000);
-const baseUrl = `http://localhost:${puerto}`;
+const baseUrl = `http://127.0.0.1:${puerto}`;
 const administrador = {
-  cedula: '87654321',
+  cedula: '123456789',
   nombreCompleto: 'Administrador de prueba',
-  celular: '3001112233',
-  usuario: 'adminprueba',
-  password: 'AdminPrueba123',
+  celular: '3117302758',
+  usuario: 'adminyony',
+  password: 'Admin123',
 };
 
 const servidor = spawn(process.execPath, ['server.js'], {
@@ -60,6 +60,10 @@ async function api(ruta, { token, method = 'GET', body } = {}) {
 
 try {
   await esperarServidor();
+  const datosPrivados = await api('/data/clientes.json');
+  assert.equal(datosPrivados.status, 404, 'los archivos de datos no deben exponerse');
+  assert.equal((await api('/src/services/authService.js')).status, 404, 'el código del servidor no debe exponerse');
+  assert.equal((await api('/ruta-inexistente')).status, 404);
   assert.equal((await api('/api/clientes')).status, 403, 'los usuarios anónimos no deben ver clientes');
 
   const usuario1 = { cedula: '12345678', nombreCompleto: 'Cliente Uno', celular: '3001234567', usuario: 'clienteuno', password: 'ClienteSeguro123', confirmarPassword: 'ClienteSeguro123' };
